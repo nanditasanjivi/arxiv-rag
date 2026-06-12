@@ -42,8 +42,10 @@ export function useChat(sessionId: string, paperIds: string[]) {
         for (const line of lines) {
           if (line.startsWith(': ')) continue // skip keepalive comments
           if (!line.startsWith('data: ')) continue
+          console.log('SSE line:', line)
           try {
             const event = JSON.parse(line.slice(6))
+            console.log('SSE event:', event)
             if (event.type === 'delta') {
               setMessages(prev => {
                 const updated = [...prev]
