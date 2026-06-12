@@ -2,7 +2,9 @@ from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sess
 from sqlalchemy.orm import DeclarativeBase
 from core.config import settings
 
-engine = create_async_engine(settings.database_url, echo=False, pool_pre_ping=True)
+# Railway provides postgres:// but asyncpg needs postgresql+asyncpg://
+_db_url = settings.database_url.replace("postgres://", "postgresql+asyncpg://").replace("postgresql://", "postgresql+asyncpg://")
+engine = create_async_engine(_db_url, echo=False, pool_pre_ping=True)
 AsyncSessionLocal = async_sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 
 
