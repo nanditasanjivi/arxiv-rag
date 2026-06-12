@@ -2,13 +2,13 @@ import cohere
 from tenacity import retry, stop_after_attempt, wait_exponential
 from core.config import settings
 
-_client: cohere.AsyncClientV2 | None = None
+_client: cohere.Client | None = None
 
 
-def get_client() -> cohere.AsyncClientV2:
+def get_client() -> cohere.Client:
     global _client
     if _client is None:
-        _client = cohere.AsyncClientV2(api_key=settings.cohere_api_key)
+        _client = cohere.Client(api_key=settings.cohere_api_key)
     return _client
 
 
@@ -18,7 +18,7 @@ async def rerank(query: str, chunks: list[dict], top_k: int = 5) -> list[dict]:
         return []
     client = get_client()
     documents = [c["text"] for c in chunks]
-    result = await client.rerank(
+    result = client.rerank(
         model="rerank-english-v3.0",
         query=query,
         documents=documents,
