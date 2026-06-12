@@ -32,6 +32,9 @@ class CompareRequest(BaseModel):
 
 
 async def _rag_stream(req: ChatRequest):
+    # Keepalive so Railway doesn't buffer the connection
+    yield ": keepalive\n\n"
+
     start_ms = time.time() * 1000
 
     # Embed + retrieve

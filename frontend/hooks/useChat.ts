@@ -40,6 +40,7 @@ export function useChat(sessionId: string, paperIds: string[]) {
         buffer = lines.pop() || ''
 
         for (const line of lines) {
+          if (line.startsWith(': ')) continue // skip keepalive comments
           if (!line.startsWith('data: ')) continue
           try {
             const event = JSON.parse(line.slice(6))
