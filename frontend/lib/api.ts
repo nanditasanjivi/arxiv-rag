@@ -1,4 +1,4 @@
-const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
+const API = process.env.NEXT_PUBLIC_API_URL || 'https://arxiv-rag-production-99b4.up.railway.app'
 
 async function req<T>(path: string, options?: RequestInit): Promise<T> {
   const res = await fetch(`${API}${path}`, {
