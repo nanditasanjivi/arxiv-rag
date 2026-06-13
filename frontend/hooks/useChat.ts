@@ -21,12 +21,15 @@ export function useChat(sessionId: string, paperIds: string[]) {
     abortRef.current = new AbortController()
 
     try {
+      console.log('Fetching:', api.chatStreamUrl())
+      console.log('Payload:', { session_id: sessionId, query, paper_ids: paperIds.length ? paperIds : null })
       const res = await fetch(api.chatStreamUrl(), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ session_id: sessionId, query, paper_ids: paperIds.length ? paperIds : null }),
         signal: abortRef.current.signal,
       })
+      console.log('Response status:', res.status, res.ok)
 
       const reader = res.body!.getReader()
       const decoder = new TextDecoder()
@@ -76,6 +79,7 @@ export function useChat(sessionId: string, paperIds: string[]) {
         }
       }
     } catch (e: any) {
+      console.error('Chat error:', e)
       if (e.name !== 'AbortError') {
         setMessages(prev => {
           const updated = [...prev]
