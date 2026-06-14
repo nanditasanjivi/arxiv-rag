@@ -36,7 +36,7 @@ class Settings(BaseSettings):
     # App
     api_host: str = "0.0.0.0"
     api_port: int = 8000
-    cors_origins: list[str] = ["http://localhost:3000", "https://*.vercel.app"]
+    cors_origins: list[str] = ["http://localhost:3000", "https://arxiv-rag.vercel.app", "https://*.vercel.app"]
     max_conversation_turns: int = 10
     retrieval_top_k: int = 20
     rerank_top_k: int = 5
